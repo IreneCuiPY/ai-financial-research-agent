@@ -3,104 +3,124 @@
 
 import { useState } from "react";
 
-type Company = {
-  ticker: string;
-  name: string;
+type FinancialData = {
+  company: string;
+  cik: number;
+  fiscalYear: number;
   revenue: number;
+  previousRevenue: number;
   revenueGrowth: number;
-  dataType: string;
+  currency: string;
+  source: string;
+  periodEnd: string;
+  filed: string;
 };
 
 export default function Home() {
-  const [ticker, setTicker] = useState("NVDA");
-  const [company, setCompany] = useState<Company | null>(null);
+  const [financials, setFinancials] =
+    useState<FinancialData | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
+
   async function analyzeCompany() {
-    const normalizedTicker = ticker.trim().toUpperCase();
-
-    if (!normalizedTicker) {
-      setError("Please enter a ticker.");
-      setCompany(null);
-      return;
-    }
-
     setLoading(true);
     setError(null);
-    setCompany(null);
+    setFinancials(null);
 
     try {
-      const response = await fetch(
-        `/api/company?ticker=${encodeURIComponent(normalizedTicker)}`
-      );
+      const response = await fetch("/api/financials");
 
       if (!response.ok) {
-        throw new Error("Company not found");
+        throw new Error("Failed to fetch financial data");
       }
 
-      const data: Company = await response.json();
-      setCompany(data);
+      const data: FinancialData = await response.json();
+
+      setFinancials(data);
     } catch (err) {
-      setError("Unable to find this company.");
       console.error(err);
+      setError("Unable to load financial data.");
     } finally {
       setLoading(false);
     }
   }
+  function formatCurrency(value: number) {
+    return new Intl.NumberFormat("en-US", {
+      style: "currency",
+      currency: "USD",
+      notation: "compact",
+      maximumFractionDigits: 2,
+    }).format(value);
+  }
 
   return (
-    <main className="mx-auto max-w-2xl p-10">
+    <main className="mx-auto max-w-4xl p-10">
       <h1 className="text-3xl font-bold">
         AI Financial Research Agent
       </h1>
 
       <p className="mt-3 text-gray-500">
-        Analyze companies with financial data and AI.
+        Financial analysis powered by SEC EDGAR data.
       </p>
 
-      <form
-        onSubmit={(event) => {
-          event.preventDefault();
-          void analyzeCompany();
-        }}
-        className="mt-6 flex gap-3"
+      <button
+        onClick={analyzeCompany}
+        disabled={loading}
+        className="mt-6 rounded-lg bg-blue-600 px-6 py-3 text-white disabled:opacity-50"
       >
-        <input
-          type="text"
-          value={ticker}
-          onChange={(event) => setTicker(event.target.value)}
-          placeholder="Enter ticker"
-          className="min-w-0 flex-1 rounded-lg border px-4 py-3"
-        />
-
-        <button
-          type="submit"
-          disabled={loading}
-          className="rounded-lg bg-blue-600 px-5 py-3 text-white disabled:opacity-50"
-        >
-          {loading ? "Analyzing..." : "Analyze"}
-        </button>
-      </form>
+        {loading ? "Analyzing..." : "Analyze Apple"}
+      </button>
 
       {error && (
         <p className="mt-4 text-red-500">{error}</p>
       )}
 
-      {company && (
-        <div className="mt-8 rounded-lg border p-6">
-          <h2 className="text-xl font-semibold">
-            {company.name}
+      {financials && (
+        <section className="mt-8 rounded-xl border p-6">
+          <h2 className="text-2xl font-semibold">
+            {financials.company}
           </h2>
 
-          <p className="mt-2">Ticker: {company.ticker}</p>
-          <p>Revenue: ${company.revenue}B</p>
-          <p>Revenue Growth: {company.revenueGrowth}%</p>
-
-          <p className="mt-4 text-sm text-gray-500">
-            Demo data — not live financial information.
+          <p className="mt-2 text-gray-500">
+            Fiscal Year {financials.fiscalYear}
           </p>
-        </div>
+
+          <div className="mt-6 grid grid-cols-1 gap-4 sm:grid-cols-3">
+            <div className="rounded-lg bg-gray-100 p-5 text-gray-900">
+              <p className="text-sm text-gray-500">
+                Revenue
+              </p>
+              <p className="mt-2 text-2xl font-bold">
+                {formatCurrency(financials.revenue)}
+              </p>
+            </div>
+
+            <div className="rounded-lg bg-gray-100 p-5 text-gray-900">
+              <p className="text-sm text-gray-500">
+                Previous Revenue
+              </p>
+              <p className="mt-2 text-2xl font-bold">
+                {formatCurrency(financials.previousRevenue)}
+              </p>
+            </div>
+
+            <div className="rounded-lg bg-gray-100 p-5 text-gray-900">
+              <p className="text-sm text-gray-500">
+                YoY Growth
+              </p>
+              <p className="mt-2 text-2xl font-bold">
+                {(financials.revenueGrowth * 100).toFixed(2)}%
+              </p>
+            </div>
+          </div>
+
+          <div className="mt-6 border-t pt-4 text-sm text-gray-500">
+            <p>Source: {financials.source}</p>
+            <p>Period End: {financials.periodEnd}</p>
+            <p>Filed: {financials.filed}</p>
+          </div>
+        </section>
       )}
     </main>
   );
