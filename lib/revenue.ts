@@ -77,3 +77,34 @@ export function calculateRevenueGrowth(
 
   return (current - previous) / previous;
 }
+
+export type RevenueGrowthPoint = {
+  fiscalYear: number;
+  revenue: number;
+  growth: number | null;
+};
+
+export function calculateRevenueGrowthHistory(
+  annual: AnnualRevenue[]
+): RevenueGrowthPoint[] {
+  return annual.map((record, index) => {
+    if (index === 0) {
+      return {
+        fiscalYear: record.fiscalYear,
+        revenue: record.revenue,
+        growth: null,
+      };
+    }
+
+    const previous = annual[index - 1];
+
+    return {
+      fiscalYear: record.fiscalYear,
+      revenue: record.revenue,
+      growth: calculateRevenueGrowth(
+        record.revenue,
+        previous.revenue
+      ),
+    };
+  });
+}

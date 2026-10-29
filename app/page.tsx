@@ -1,6 +1,13 @@
 "use client";
+import RevenueGrowthChart from "@/components/RevenueGrowthChart";
 
 import { useState, type FormEvent } from "react";
+
+import RevenueChart, {
+    type RevenueHistoryPoint,
+} from "@/components/RevenueChart";
+
+import FinancialInsightCard from "@/components/FinancialInsightCard";
 
 type FinancialData = {
   ticker: string;
@@ -16,6 +23,20 @@ type FinancialData = {
   periodEnd: string;
   previousPeriodEnd: string;
   filed: string;
+  revenueHistory: {
+    fiscalYear: number;
+    revenue: number;
+    growth: number | null;
+    periodEnd: string;
+    filed: string;
+  }[];
+  growthInsight: {
+    status: "accelerating" | "decelerating" | "stable";
+    currentGrowth: number;
+    previousGrowth: number;
+    changePercentagePoints: number;
+    summary: string;
+  } | null;
 };
 
 function formatBillions(value: number): string {
@@ -138,6 +159,10 @@ export default function Home() {
               value={`${(financials.revenueGrowth * 100).toFixed(2)}%`}
             />
           </div>
+
+          <RevenueChart data={financials.revenueHistory} />
+          <RevenueGrowthChart data={financials.revenueHistory} />
+          <FinancialInsightCard insight={financials.growthInsight} />
 
           <div className="mt-8 border-t pt-5 text-sm text-gray-500">
             <p>Source: {financials.source}</p>
