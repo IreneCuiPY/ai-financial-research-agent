@@ -3,12 +3,68 @@
     "id": "nvda-revenue-growth",
     "ticker": "NVDA",
     "query": "revenue growth",
-    "description": "Find explanations of NVIDIA's revenue growth.",
     "relevanceGrades": {
       "mda-p-5": 2,
       "mda-p-18": 2,
       "mda-p-40": 2,
-      "mda-p-42": 1
+      "mda-p-42": 1,
+      "mda-p-6": 1,
+      "mda-p-54": 0
+    }
+  },
+  {
+    "id": "nvda-gross-margin",
+    "ticker": "NVDA",
+    "query": "gross margin",
+    "relevanceGrades": {
+      "mda-p-22": 2,
+      "mda-p-27": 2,
+      "mda-p-28": 0,
+      "mda-p-51": 2,
+      "mda-p-49": 1,
+      "mda-p-50": 2
+    }
+  },
+  {
+    "id": "nvda-operating-expenses",
+    "ticker": "NVDA",
+    "query": "operating expenses",
+    "relevanceGrades": {
+      "mda-p-23": 2,
+      "mda-p-3": 0,
+      "mda-p-7": 1,
+      "mda-p-15": 0,
+      "mda-p-24": 0,
+      "mda-p-42": 0,
+      "mda-p-53": 2,
+      "mda-p-52": 2,
+      "mda-p-33": 0
+    }
+  },
+  {
+    "id": "nvda-data-center",
+    "ticker": "NVDA",
+    "query": "data center revenue",
+    "relevanceGrades": {
+      "mda-p-5": 2,
+      "mda-p-7": 1,
+      "mda-p-18": 2,
+      "mda-p-40": 2,
+      "mda-p-2": 0
+    }
+  },
+  {
+    "id": "nvda-inventory",
+    "ticker": "NVDA",
+    "query": "inventory",
+    "relevanceGrades": {
+      "mda-p-7": 1,
+      "mda-p-8": 2,
+      "mda-p-22": 1,
+      "mda-p-25": 2,
+      "mda-p-26": 2,
+      "mda-p-51": 2,
+      "mda-p-27": 2
     }
   }
 ]

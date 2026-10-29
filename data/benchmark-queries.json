@@ -1,0 +1,27 @@
+[
+  {
+    "id": "nvda-revenue-growth",
+    "ticker": "NVDA",
+    "query": "revenue growth"
+  },
+  {
+    "id": "nvda-gross-margin",
+    "ticker": "NVDA",
+    "query": "gross margin"
+  },
+  {
+    "id": "nvda-operating-expenses",
+    "ticker": "NVDA",
+    "query": "operating expenses"
+  },
+  {
+    "id": "nvda-data-center",
+    "ticker": "NVDA",
+    "query": "data center revenue"
+  },
+  {
+    "id": "nvda-inventory",
+    "ticker": "NVDA",
+    "query": "inventory"
+  }
+]
