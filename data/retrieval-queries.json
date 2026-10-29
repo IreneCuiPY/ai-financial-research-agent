@@ -4,6 +4,11 @@
     "ticker": "NVDA",
     "query": "revenue growth",
     "description": "Find explanations of NVIDIA's revenue growth.",
-    "relevantParagraphIds": ["mda-p-5", "mda-p-18", "mda-p-40"]
+    "relevanceGrades": {
+      "mda-p-5": 2,
+      "mda-p-18": 2,
+      "mda-p-40": 2,
+      "mda-p-42": 1
+    }
   }
 ]
