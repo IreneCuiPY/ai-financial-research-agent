@@ -1,0 +1,9 @@
+[
+  {
+    "id": "nvda-revenue-growth",
+    "ticker": "NVDA",
+    "query": "revenue growth",
+    "description": "Find explanations of NVIDIA's revenue growth.",
+    "relevantParagraphIds": ["mda-p-5", "mda-p-18", "mda-p-40"]
+  }
+]
